@@ -1,4 +1,8 @@
 import React, {Component} from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import { bindActionCreators, createStore } from 'redux';
+import { connect, Provider } from 'react-redux';
+import * as actionCreators from './../actions/busData';
 
 class Countdown extends Component {
 	constructor() {
@@ -11,6 +15,29 @@ class Countdown extends Component {
 			}, 1000)
 		}
 	}
+
+	componentDidMount() {
+	    const fetchBusData = bindActionCreators(
+	    actionCreators.fetchBusData, this.props.dispatch
+	    )
+
+	   // need dateString to fetch api for current day
+	    let dateTest = new Date();
+	    let year = dateTest.getFullYear().toString();
+	    let month = (dateTest.getMonth() + 1).toString();
+	    month.length < 2 ? month = 0 + month : null;
+	    let day = (dateTest.getDay() + 1).toString();
+	    day.length < 2 ? day = 0 + day : null;
+
+	    let dateString = year + month + day 
+
+	    // console.log( dateString )
+
+	    fetch('https://otp.straeto.is/otp/routers/default/index/stops/1:90000091/stoptimes/' + dateString)
+	    .then((response)=>response.json())
+	    .then((response)=>{
+	      fetchBusData(response)
+    });}
 
 
 
@@ -54,13 +81,17 @@ class Countdown extends Component {
 		// let timeWaiting = d2.toLocaleTimeString([], {minute: '2-digit', second:'2-digit'});
 
 		return(
-			<div>
-				<h4>Næsti strætó kemur eftir</h4>
-				<h1>{timeWaiting}</h1>
-				<h4>mínútur</h4>
-			</div>
+			<View>
+				<Text>Næsti strætó kemur eftir</Text>
+				<Text>{timeWaiting}</Text>
+				<Text>mínútur</Text>
+			</View>
 		);
 	}
 }
-export default Countdown;
 
+const mapStateToProps = state => ({
+  data: state.data,
+})
+
+export default connect(mapStateToProps)(Countdown);

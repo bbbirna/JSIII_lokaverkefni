@@ -1,5 +1,11 @@
 import React, {Component} from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, Picker, Item, Button } from 'react-native';
+import { bindActionCreators } from 'redux'; 
+import { connect } from 'react-redux';
+import ModalDropdown from 'react-native-modal-dropdown';
+import * as actionCreators from './../actions/busData';
+
+
 
 
 class Dropdowns extends Component {
@@ -9,10 +15,15 @@ class Dropdowns extends Component {
 	}
 
 	render() {
-		console.log(this.props.viewMore)
+		// console.log(this.props.viewMore)
+
+		const showPicker = bindActionCreators(
+	      actionCreators.showPicker, this.props.dispatch
+	    );
+
 		return(
 
-			<View style={relative}>
+			<View>
 
 				{this.props.viewMore ? 
 
@@ -20,23 +31,26 @@ class Dropdowns extends Component {
 
 					<View>
 						<View>		
-							<h4>Strætó:</h4>
-							
-							<select>
-								<option>Leið 13</option>
-							</select>
-							
-							<select>
-								<option>Mjódd - Eiðistorg</option>
-							</select>
-							
+							<Text>Strætó:</Text>
+							<ModalDropdown defaultValue={'Leið 11'} options={['leið 11']}/>
+							<ModalDropdown defaultValue={'Mjódd - Eiðistorg'} options={['Mjódd - Eiðistorg']} />
+						</View>
+
+						<Text>Biðstöð:</Text>
+						
+						{
+							// <Picker>
+							// 	<Picker.Item label={'Háteigskirkja'} value={'Háteigskirkja'}/>
+							// </Picker>
+						}
+
+						<View>
+							<Button title={'Leið 11'} onPress={()=>{showPicker('Leið 11')}}/>
+							<Button title={'Mjódd - Eiðistorg'} onPress={()=>{showPicker('Mjódd - Eiðistorg')}}/>
+							<Button title={'Háteigskirkja'} onPress={()=>{showPicker('Háteigskirkja')}}/>
+					
 						</View>
 						
-						<h4>Biðstöð:</h4>
-						
-						<select>
-							<option>Háteigskirkja</option>
-						</select>
 					</View>					
 				}
 			</View> 
@@ -44,11 +58,15 @@ class Dropdowns extends Component {
 	}
 }
 
+const mapStateToProps = state => ({
+  viewMore: state.viewMore,
+  showPicker: state.showPicker
+})
 
-export default Dropdowns;
+export default connect(mapStateToProps)(Dropdowns);
 
 
-let relative = {
-	'position': 'relative'
-}
+
+
+
 

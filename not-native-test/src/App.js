@@ -15,8 +15,7 @@ import * as actionCreators from './actions/busData';
 class App extends Component {
 
     componentDidMount() {
-
-    const fetchBusData = bindActionCreators(
+      const fetchBusData = bindActionCreators(
       actionCreators.fetchBusData, this.props.dispatch
     );
 

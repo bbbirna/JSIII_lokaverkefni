@@ -17,16 +17,16 @@ class Btn extends Component {
 		return(
 
 			<View>
-				<Button title={'hæ'}/>
+				
 
 				{
-				// <Button
-				// 	raised
-				// 	onPress={showBusData}
-				// 	title={!this.props.viewMore ? 
-				//   		"Sjá fleiri ferðir"
-				//   		:" Til baka"} 
-				// 	/>
+				<Button
+					raised
+					onPress={showBusData}
+					title={!this.props.viewMore ? 
+				  		"Sjá fleiri ferðir"
+				  		:" Til baka"} 
+					/>
 
 				}
 			</View>
@@ -39,4 +39,4 @@ const mapStateToProps = state => ({
   viewMore: state.viewMore
 })
 
-export default connect(mapStateToProps)(Button);
+export default connect(mapStateToProps)(Btn);

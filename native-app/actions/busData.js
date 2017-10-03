@@ -13,3 +13,10 @@ export const showBusData = (value) => {
 		viewMore: value
 	}
 }
+
+export const showPicker = (value) => {
+	return {
+		type: actiontypes.SHOW_PICKER,
+		showPicker: value
+	}
+}

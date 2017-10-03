@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { Text, View } from 'react-native';
+import { connect } from 'react-redux';
 import { List, ListItem } from 'react-native-elements'
 
 
@@ -76,5 +77,14 @@ class Arrivals extends Component {
 		);
 	}
 }
-export default Arrivals;
+
+
+const mapStateToProps = state => ({
+  data: state.data,
+  timer: 0,
+  viewMore: state.viewMore
+})
+
+export default connect(mapStateToProps)(Arrivals);
+
 
