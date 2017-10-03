@@ -1,23 +1,74 @@
 console.log("body")
 
-let busStops = [];
+let IDs = [];
 
-fetch('https://otp.straeto.is/otp/routers/default/index/stops/')
+let getData = () => {
+	fetch('https://otp.straeto.is/otp/routers/default/index/stops/')
     // .then((response)=>response.json())
     // .then(console.log(response))
     .then(function(response) {
-    return response.text()
-	}).then(function(body) {
-	// document.body.innerHTML = body
-	busStops = JSON.stringify(body);
 
-	document.body.innerHTML = busStops
+   		return response.json()
 
-	console.log(busStops)
+	}).then(function(json) {
+		console.log(json)
+		IDs.push(json)
 
 	})
     .catch(function(error) {
 	  console.log('There has been a problem with your fetch operation: ' + error.message);
 	});
+
+	console.log(IDs)
+}
+
+setTimeout(getData, 1000)
+
+
+
+// function createElements(elements) {
+//     // Assuming you get an array of objects.
+//     elements = JSON.parse(elements);
+
+//     elements.forEach(funciton(element) {
+//         let div = document.getElementById(element.id);
+//         div.innerHTML = element.text;
+//     });
+// }
+
+// var request = new XMLHttpRequest();
+
+// request.onload = createElements;
+// request.open("get", "busStops.json", true);
+// request.send();
+
+
+
+// // var someIp = 'busStops';
+// var xmlhttp = new XMLHttpRequest();
+
+// xmlhttp.onreadystatechange = function() {
+//   if (xmlhttp.readyState == XMLHttpRequest.DONE) {
+//     if (xmlhttp.status == 200) {
+//       document.getElementById("myDiv").innerHTML = xmlhttp.responseText;
+//     }
+//     else if (xmlhttp.status == 400) {
+//       alert('There was an error 400');
+//     }
+//     else {
+//       alert('something else other than 200 was returned');
+//     }
+//   }
+// };
+
+// xmlhttp.open("GET", "file://busStops.json", true);
+// xmlhttp.send();
+
+
+
+
+
+
+
 
 

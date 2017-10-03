@@ -1,23 +1,28 @@
 import React, {Component} from 'react';
+import { Text, View } from 'react-native';
+import { List, ListItem } from 'react-native-elements'
 
-class Countdown extends Component {
+
+class Arrivals extends Component {
 	constructor() {
 		super();
-		// setInterval(()=>{console.log(new Date().toLocaleTimeString())},1000)
+		
 		{
 			setInterval(()=>{
 				// console.log(new Date().toLocaleTimeString())
 				this.setState({timer: (new Date().toLocaleTimeString())})
-			}, 1000)
+			}, 60000)
 		}
 	}
 
-
-
 	render() {
-
+		// if(this.props.data[0]) {
+		// 	console.log(this.props.data[0].times);
+		// }
+		
 		let timesArray = [];
 		let timesArraySecs = [];
+
 		let futureBusses = []
 		// let timeNow = new Date()
 		// let timeString = timeNow.toLocaleTimeString();
@@ -47,20 +52,29 @@ class Countdown extends Component {
 			}
 		});
 
-		//
-		let secsWaiting = futureBusses[0] - secsTD;
-		let d2 = new Date(secsWaiting * 1000);
-		let timeWaiting = d2.toLocaleTimeString();
-		// let timeWaiting = d2.toLocaleTimeString([], {minute: '2-digit', second:'2-digit'});
 
 		return(
-			<div>
-				<h4>Næsti strætó kemur eftir</h4>
-				<h1>{timeWaiting}</h1>
-				<h4>mínútur</h4>
-			</div>
+			<View>
+									
+				
+				{this.props.viewMore ?
+				
+				<List>
+					{	
+						futureBusses.map((times, i) => {
+							let d3 = new Date(times * 1000);
+							let arrivalTime = d3.toLocaleTimeString();
+							return(
+								<ListItem key={i} title={arrivalTime} />
+							);
+						})
+					}
+				</List>
+
+				: null}
+			</View>
 		);
 	}
 }
-export default Countdown;
+export default Arrivals;
 

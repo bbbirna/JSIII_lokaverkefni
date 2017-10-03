@@ -52,8 +52,10 @@ class Arrivals extends Component {
 
 		return(
 			<div>
-				<h1>Þetta er bustest</h1>
-										
+									
+				
+				{this.props.viewMore ?
+				
 				<ul>
 					{	
 						futureBusses.map((times, i) => {
@@ -66,6 +68,7 @@ class Arrivals extends Component {
 					}
 				</ul>
 
+				: null}
 			</div>
 		);
 	}

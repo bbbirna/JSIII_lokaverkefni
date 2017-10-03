@@ -1,19 +1,24 @@
 import React, { Component } from 'react';
+
+import { bindActionCreators } from 'redux'; // einfaldar svo þurfi ekki að gera dispatch
+import { connect } from 'react-redux';
+
 import Arrivals from './components/arrivals';
 import Clock from './components/clock';
 import Countdown from './components/countdown';
-import Button from './components/btns';
+import Button from './components/btn';
+import Dropdowns from './components/dropdowns'
+import Banner from './components/banner'
+
+import * as actionCreators from './actions/busData';
 
 class App extends Component {
 
-  constructor() {
-    super();
-    this.state = {
-      data: [],
-      timer: 0,
-      viewMore: false
+    componentDidMount() {
 
-    }
+    const fetchBusData = bindActionCreators(
+      actionCreators.fetchBusData, this.props.dispatch
+    );
 
     // need dateString to fetch api for current day
     let dateTest = new Date();
@@ -30,9 +35,7 @@ class App extends Component {
     fetch('https://otp.straeto.is/otp/routers/default/index/stops/1:90000091/stoptimes/' + dateString)
     .then((response)=>response.json())
     .then((response)=>{
-      this.setState({
-        data: response
-       });
+      fetchBusData(response)
     });
   }
 
@@ -40,10 +43,15 @@ class App extends Component {
     return (
       <div className="App">
 
-        <Clock data={this.state.data} timer={this.state.timer} />
-        <Arrivals data={this.state.data} timer={this.state.timer} />
-        <Button viewMore={this.state.viewMore}/>
-        <Countdown data={this.state.data} timer={this.state.timer} />
+        {//<Clock data={this.props.data} timer={this.props.timer} />
+        }
+        <Banner />
+        <Dropdowns viewMore={this.props.viewMore}/>
+        <Countdown data={this.props.data} timer={this.props.timer} />
+        <Button viewMore={this.props.viewMore}/>
+        <Arrivals data={this.props.data} timer={this.props.timer} viewMore={this.props.viewMore} />
+        
+        
 
       </div>
       
@@ -51,4 +59,13 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = state => ({
+  data: state.data,
+  timer: 0,
+  viewMore: state.viewMore
+})
+
+// Radium er fyrir css trick og kemur inn þegar maður gerir npm install (eða yarn add)
+export default connect(mapStateToProps)(App);
+
+
